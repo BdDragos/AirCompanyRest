@@ -1,10 +1,12 @@
 package controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import model.Flight;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.*;
 import repository.FlightRepo;
 import services.FlightList;
@@ -15,6 +17,7 @@ import java.util.List;
 /**
  * Created by Dragos on 5/20/2017.
  */
+@EnableAsync
 @RestController
 @RequestMapping("/company/flight")
 public class FlightController
@@ -29,6 +32,7 @@ public class FlightController
         return String.format(template, name);
     }
 
+    @JsonView(View.Summary.class)
     @RequestMapping( method= RequestMethod.GET)
     public FlightList getAll(){
         return repo.getAll();
@@ -46,6 +50,8 @@ public class FlightController
 
     @RequestMapping(method = RequestMethod.POST)
     public Flight create(@RequestBody Flight fl){
+        System.out.println(fl);
+        System.out.println("*****************");
         repo.save(fl);
         return fl;
 
@@ -82,37 +88,5 @@ public class FlightController
         return e.getMessage();
     }
 
-
-        /*
-    @RequestMapping(value = "/flight/{destination}", method = RequestMethod.GET)
-    public ResponseEntity<?> getByDestination(@PathVariable String destination){
-
-        FlightList fl = repo.findByDestination(destination);
-        if (fl==null)
-            return new ResponseEntity<String>("Flight not found",HttpStatus.NOT_FOUND);
-        else
-            return new ResponseEntity<FlightList>(fl, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/flight/{datehour}", method = RequestMethod.GET)
-    public ResponseEntity<?> getByDate(@PathVariable String datehour){
-
-        FlightList fl = repo.findByDate(datehour);
-        if (fl==null)
-            return new ResponseEntity<String>("Flight not found",HttpStatus.NOT_FOUND);
-        else
-            return new ResponseEntity<FlightList>(fl, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/flight/{destination, datehour}", method = RequestMethod.GET)
-    public ResponseEntity<?> getByBoth(@PathVariable String datehour,String destination){
-
-        FlightList fl = repo.findByDestinationAndDate(destination,datehour);
-        if (fl==null)
-            return new ResponseEntity<String>("Flight not found",HttpStatus.NOT_FOUND);
-        else
-            return new ResponseEntity<FlightList>(fl, HttpStatus.OK);
-    }
-    */
 
 }

@@ -81,50 +81,6 @@ public class FlightRepo
         return rez;
     }
 
-
-    public void updateFlight(Flight flight,String client,int noticket,String address)
-    {
-        for (Flight f: flights)
-        {
-            if(f.getFlightId() == flight.getFlightId())
-            {
-                try
-                {
-                    String query = "update routes set FreeSeats=FreeSeats-? where Id = ?";
-                    PreparedStatement preparedStmt = connection.prepareStatement(query);
-                    int id = flight.getFlightId();
-                    preparedStmt.setInt(1, noticket);
-                    preparedStmt.setInt(2, id);
-                    preparedStmt.executeUpdate();
-
-                    int bilete =  flights.get(flight.getFlightId()-1).getFreeseats();
-                    flights.get(flight.getFlightId()-1).setFreeseats(bilete-noticket);
-                    String s = flight.toString();
-                    if (flights.get(flight.getFlightId()-1).getFreeseats() == 0)
-                    {
-                        deleteFlight(flight.getFlightId());
-                    }
-
-                    String query2 = " insert into clients (Name,Address,NoTickets,Flight)"
-                            + " values (?, ?, ?, ?)";
-
-                    PreparedStatement preparedStmt2 = connection.prepareStatement(query2);
-                    preparedStmt2.setString (1, client);
-                    preparedStmt2.setString (2, address);
-                    preparedStmt2.setInt   (3, noticket);
-                    preparedStmt2.setString   (4, s);
-                    preparedStmt2.execute();
-
-                }
-                catch (Exception e)
-                {
-                    System.err.println("Got an exception! ");
-                    System.err.println(e.getMessage());
-                }
-            }
-        }
-    }
-
     public void deleteFlight(int id)
     {
         for (Flight f: flights)

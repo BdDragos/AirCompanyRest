@@ -1,14 +1,26 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import controller.View;
+
 /**
  * Created by Dragos on 5/20/2017.
  */
 public class Flight
 {
+    @JsonView(View.Summary.class)
     private int flightId;
+
+    @JsonView(View.Summary.class)
     private String destination;
+
+    @JsonView(View.Summary.class)
     private String airport;
+
+    @JsonView(View.Summary.class)
     private int freeseats;
+
+    @JsonView(View.Summary.class)
     private String datehour;
 
     public Flight()

@@ -12,7 +12,6 @@ public class Main {
     private final static FlightClient flightclient=new FlightClient();
     public static void main(String[] args) {
         RestTemplate restTemplate=new RestTemplate();
-        flightclient.delete(20);
         Flight fly=new Flight(20,"Tokyo","Bacau",50,"2017-07-01");
         try
         {

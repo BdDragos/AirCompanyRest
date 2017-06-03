@@ -38,13 +38,7 @@ public class HibernateRepo
         {
             tx = session.beginTransaction();
             flights = session.createQuery("FROM Flight").list();
-            for (Iterator iterator = flights.iterator(); iterator.hasNext();)
-            {
-                Flight f = (Flight) iterator.next();
-                System.out.print("Id: " + f.getFlightId());
-                System.out.print("Airport: " + f.getAirport());
-                System.out.println("Destination: " + f.getDestination());
-            }
+
             tx.commit();
         }
         catch (HibernateException e)
